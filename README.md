@@ -2,6 +2,11 @@
 
 Version: Vue 3 and Pinia.
 
+# Tech used (Aug 2022)
+Front-end: Vue3 and Pinia
+UI/UX: Bootstrap latest
+BackEnd: Firebase latest
+
 ## Currently
 
 When user logs in or not:
