@@ -1,3 +1,5 @@
+
+
 <template>
 <div class="row">    
 {{ $route.params.items }}
@@ -48,13 +50,20 @@
 </table>
 <p>Order total: </p>
 <div class="d-grid gap-2">
-<button class='btn btn-primary btn-block'>Request Quote</button>
+<button class='btn btn-primary btn-block' @click="addNewQuote()">Request Quote</button>
 </div> 
 <!-- close if -->
 </div>
 
 <div v-else>
 <p>{{cartText}}</p>
+{{numberOfOrders}}
+<!-- access initial store value -->
+<!-- {{getServiceItems}} -->
+<!-- show the order number by accessing orders from the store state or getters -->
+ <!-- {{this.$serviceStore.state.orders}}  -->
+ <!-- {{this.$serviceStore.orders}} -->
+
 </div>
 </div>
 
@@ -62,43 +71,69 @@
 </template>
 
 <script>
+// import data from store
+import {useServiceStore} from '../stores/ServiceStore';
+
+// make store to use
+// const serviceStore = useServiceStore();
+
 export default {
   data() {
     return {
       cart: [],
-      cartText: 'Your cart is empty',
-      getServiceItems: {
-        1: {"name": 'Marine',
-        "description": 'Sailors Management',
-        "options":[
-          {"size":"small", 
-        "price":100
-        },
-        {"size":"big", 
-        "price":"200"
-        }]
-        },
-        2: {"name": 'Yatch',
-        "description": 'Sailors Management',
-        "options":[{"size":"small", 
-        "price":"50"
-        },
-        {"size":"big", 
-        "price":"80"
-        }]
-        },
-         3: {"name": 'shipping',
-        "description": 'Sailors Management',
-        "options":[{"size":"small", 
-        "price":59
-        },
-        {"size":"big", 
-        "price":76
-        }]
-        } //object
-    } //get menu
+      cartText: 'Your cart is empty'
+    //   getServiceItems: {
+    //     1: {"name": 'Marine',
+    //     "description": 'Sailors Management',
+    //     "options":[
+    //       {"size":"small", 
+    //     "price":100
+    //     },
+    //     {"size":"big", 
+    //     "price":"200"
+    //     }]
+    //     },
+    //     2: {"name": 'Yatch',
+    //     "description": 'Sailors Management',
+    //     "options":[{"size":"small", 
+    //     "price":"50"
+    //     },
+    //     {"size":"big", 
+    //     "price":"80"
+    //     }]
+    //     },
+    //      3: {"name": 'shipping',
+    //     "description": 'Sailors Management',
+    //     "options":[{"size":"small", 
+    //     "price":59
+    //     },
+    //     {"size":"big", 
+    //     "price":76
+    //     }]
+    //      } //object
+    //  } //get service
   } //return
   }, //data
+  computed: {
+    getServiceItems(){
+      // Define the return of the useServiceStore.js as serviceStore
+      const serviceStore = useServiceStore();
+      // return this.$stores.state.serviceItems;
+      // return this.$stores.state();
+      // this.$stores.state();
+      // return this.$serviceStore;
+      console.log(serviceStore);
+      // console.log(this.$serviceStore); // undefined
+      console.log(serviceStore.serviceItems);
+      // return;
+      return serviceStore.serviceItems;
+    },
+    numberOfOrders() {
+      const serviceStore = useServiceStore();
+      // console.log(this.$serviceStore.numberOfOrders);
+      return serviceStore.getNumberOfOrders;
+    }
+  },
   methods: {
     addToCart(item, option) {
       this.cart.push({
@@ -121,6 +156,25 @@ export default {
         this.removeFromCart(item);
       }
     },
+    addNewQuote() {
+      console.log('hey');
+      // access the store
+      const serviceStore = useServiceStore();
+      console.log('action log: ',serviceStore);
+      // commit the change with commit method by passing mutation name created in the store
+      // serviceStore.commit('addQuote');
+      // Use insteads of mutation and commit
+      // initiate the addition
+      // serviceStore.addQuote(this.cart); //How do Actions work in Pinia? use 'return'?
+      console.log(serviceStore.orders);
+      // console.log(serviceStore.addQuote());
+      // serviceStore.addQuote();
+      serviceStore.addQuote(this.cart);
+      // clean cart of quotes
+      this.cart = [];
+      // add message to replace the previous empty basket message
+      this.cartText = 'Thanks, your order has been placed :)'
+    }
   }
 } //close default
 </script>

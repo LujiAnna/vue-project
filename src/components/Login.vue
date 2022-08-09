@@ -1,4 +1,7 @@
 <template>
+<div>
+  <p>Logged in as: ...<br> {{currentUser}}</p>
+</div>
     <form>
       <div class="m-3 form-group row">
         <label for="email" class="form-label">Email adress</label>
@@ -17,17 +20,54 @@
 </template>
 
 <script>
+// import data from store - should be right under the script before importing firebase
+import {useServiceStore} from '../stores/ServiceStore';
 import { auth } from '../firebase'
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+
+
+// Define the return of the useServiceStore.js as serviceStore == ERROR
+// const serviceStore = useServiceStore();
+
+// const authen = getAuth();
+// console: () => console;
+window.console.log('this line');
+onAuthStateChanged(auth, (user) => {
+  window.console.log('hi');
+  // TODO: dispatch action with FB Auth
+  console.log(user);
+//   if (user) {
+// //     // User is signed in, see docs for a list of available properties
+// //     // https://firebase.google.com/docs/reference/js/firebase.User
+// //     // const uid = user.uid;
+//     // access user from store
+//     const serviceStore = useServiceStore();
+//     serviceStore.setUser(user);
+//     console.log('here', serviceStore);
+//   } else {
+//     // User is signed out
+//     serviceStore.setUser(null)
+//   }
+});
 
 export default {
   methods: {
+    log(msg){
+    console.log(msg); 
+ },
+    setup() {
+     const serviceStore = useServiceStore();
+
+    return { serviceStore }
+  },
     signIn() {
       // get the values of email and password
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      // console.log('signin msg');
+      // FIXME: console.log(email, password);
   
       // Call method for sign in
        signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
@@ -46,7 +86,6 @@ export default {
           alert(errorMessage);
         }
   });
-
     },
     signOut() {
       // console.log('signout msg');
@@ -60,10 +99,17 @@ export default {
         alert(error);
       });
     }
+  }, // method
+  computed: {
+    console: () => console,
+  window: () => window,
+    currentUser() {
+      const serviceStore = useServiceStore();
+      console.log(serviceStore);
+      console.log(serviceStore.currentUser);
+      return serviceStore.currentUser;
+    }
   }
+  
 }
 </script>
-
-<style>
-
-</style>

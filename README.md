@@ -1,14 +1,17 @@
 # vue-project
 
-This template should help get you started developing with Vue 3 in Vite.
+Version: Vue 3 and Pinia.
 
-## Recommended IDE Setup
+## Currently
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+When user logs in or not:
+1. User logged in info (email & passowrd) should be displayed on console. 
+* Components - Login.Vue, Admin.Vue and stores - ServiceStore.js
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Error: I can't see anything when I do console.log ()
+Login.Vue line 69
+// FIXME: console.log(email, password);
 
 ## Project Setup
 

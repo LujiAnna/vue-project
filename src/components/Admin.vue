@@ -2,6 +2,7 @@
 import NewService from './NewService.vue'
 import Login from './Login.vue'
 
+import {useServiceStore} from '../stores/ServiceStore';
 
 export default {
   components: {
@@ -19,6 +20,25 @@ export default {
   //     alert('Hey ' + vm.name)
   //   })
   // }
+  computed: {
+    // setup(){
+
+    // }
+    getServiceItems(){
+      // Define the return of the useServiceStore.js as serviceStore
+      const serviceStore = useServiceStore();
+      // console.log(serviceStore);
+      // console.log(serviceStore.serviceItems);
+      return serviceStore.serviceItems;
+      // return serviceStore.getServiceItems;
+},
+    numberOfOrders(){
+      const serviceStore = useServiceStore();
+      console.log(serviceStore);
+      console.log(serviceStore.getNumberOfOrders);
+      return serviceStore.getNumberOfOrders;
+    }
+  },
    beforeRouteLeave: (to, from, next) => {
     if(confirm('Have you remembered to log out?') == true) {
       next();
@@ -46,9 +66,10 @@ export default {
       <th scope="col">Remove from Service</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody v-for="item in getServiceItems">
     <tr>
-<td>Marine</td>
+<!-- <td>Marine</td> -->
+<td>{{item.name}}</td>
 <td>
 <button class='btn btn-outline-danger btn-sm'>x</button>
 </td>
@@ -60,7 +81,7 @@ export default {
 
 <div class="row">
   <div class="col-sm-12">
-       <h3>Current Quotes:</h3>
+       <h3>Current Quotes: {{numberOfOrders}}</h3>
     <table class="table table-sm">
   <thead class='thead-default'>
     <tr>
